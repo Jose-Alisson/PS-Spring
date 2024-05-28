@@ -136,10 +136,10 @@ public class OrderService {
         var principal = (String) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         Account account = Account.builder().id(accountRepository.getIdByEmail(principal)).build();
 
-        if (account.getId() != 0){
+        if (account.getId() != null){
             return repository.findAllByUserId(account.getId()).stream().map(order -> mapper.map(order, OrderDTO.class)).toList();
         }
-        throw new ErrDateTransfer("", HttpStatus.NOT_FOUND);
+        throw new ErrDateTransfer("", HttpStatus.UNAUTHORIZED);
     }
 
     public void wsAddToList(OrderDTO orderDTO){
