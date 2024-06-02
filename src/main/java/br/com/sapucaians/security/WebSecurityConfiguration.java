@@ -38,6 +38,7 @@ public class WebSecurityConfiguration {
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 
         http.cors(cors -> cors.configurationSource(configurationSource())).csrf(AbstractHttpConfigurer::disable).authorizeHttpRequests(request -> {
+            request.anyRequest().permitAll();
             request.requestMatchers("/api/account/create").permitAll();
             request.requestMatchers("/api/account/login").permitAll();
             request.requestMatchers("/api/account/isExist").permitAll();
@@ -45,7 +46,6 @@ public class WebSecurityConfiguration {
             request.requestMatchers("/api/product/search").permitAll();
             request.requestMatchers("/api/product/{id}").permitAll();
             request.requestMatchers("/api/product/offset/{offset}").permitAll();
-            request.anyRequest().authenticated();
 
         }).addFilterBefore(filter, UsernamePasswordAuthenticationFilter.class).sessionManagement(sManager -> {
             sManager.sessionCreationPolicy(SessionCreationPolicy.STATELESS);

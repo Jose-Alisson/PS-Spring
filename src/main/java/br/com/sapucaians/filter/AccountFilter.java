@@ -1,6 +1,7 @@
 package br.com.sapucaians.filter;
 
 import br.com.sapucaians.detail.AccountDetail;
+import br.com.sapucaians.exception.causable.ErrDateTransfer;
 import br.com.sapucaians.jwt.TokenService;
 import br.com.sapucaians.repository.AccountRepository;
 import com.auth0.jwt.exceptions.TokenExpiredException;
@@ -57,8 +58,8 @@ public class AccountFilter extends OncePerRequestFilter {
 				filterChain.doFilter(request, response);
 				return;
 			}
-		} catch (TokenExpiredException e) {
-			e.printStackTrace();
+		} catch (ErrDateTransfer e) {
+//			e.printStackTrace();
 			response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
 			response.getWriter().write("Erro: " + e.getMessage());
 			return;
